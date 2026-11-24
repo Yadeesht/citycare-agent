@@ -76,10 +76,10 @@ def test_a_non_emergency_message_is_not_flagged_by_any_code_layer():
 
 
 def test_after_an_emergency_the_chat_belongs_to_staff():
-    chat = Chat([route("info", emergency=True)])
+    chat = Chat([route("info", emergency=True), route("info")])
     chat.say("I can't breathe")
     r = chat.say("ok what should I do now?")
-    assert r.handoff and r.agent == "human" and len(chat.calls) == 1
+    assert r.handoff and r.agent == "human" and len(chat.calls) == 2
 
 
 # ---- routing and agents ------------------------------------------------------------------------
@@ -102,10 +102,20 @@ def test_models_and_effort_settings_reach_the_api_request():
     assert "temperature" not in router_call and "temperature" not in agent_call   # rejected by these models
 
 
-def test_router_failure_falls_back_to_info_and_the_chat_continues():
-    chat = Chat([RuntimeError("router down"), text("Our OPD is Mon-Sat.")])
+def test_router_failure_runs_no_agent_and_asks_the_patient_to_resend():
+    chat = Chat([RuntimeError("router down")])
     r = chat.say("when are you open?")
-    assert r.agent == "info" and "OPD" in r.reply
+    assert r.agent == "info" and not r.handoff and not r.emergency and "108" in r.reply and "again" in r.reply
+    assert len(chat.calls) == 1 and chat.unused == 0     # only the failed router call; no agent call
+    chat2 = Chat([tool_use("route", {"worker": "nonsense"})])
+    assert "again" in chat2.say("hi").reply and len(chat2.calls) == 1
+
+
+def test_the_chat_continues_normally_after_a_router_failure():
+    chat = Chat([RuntimeError("router down"), route("info"), text("Our OPD is Mon-Sat.")])
+    chat.say("when are you open?")
+    r = chat.say("when are you open?")
+    assert "OPD" in r.reply and not r.handoff
 
 
 def test_router_can_hand_off_an_upset_patient_without_another_model_call():
@@ -119,17 +129,32 @@ def test_router_can_hand_off_an_upset_patient_without_another_model_call():
     ("hinglish", "mujhe kisi insaan se baat karni hai", "Zaroor"),
     ("hi", "मुझे किसी व्यक्ति से बात करनी है", "स्टाफ"),
 ])
-def test_explicit_request_for_a_person_is_answered_in_code_in_the_language_the_router_reported(language, message, word):
-    chat = Chat([route("info", language=language), text("ok")])
-    chat.say("hello")                      # the router reports the language on an earlier turn
-    n = len(chat.calls)
+def test_asking_for_a_person_is_the_routers_call_and_the_reply_follows_its_language(language, message, word):
+    chat = Chat([route("human", language=language)])
     r = chat.say(message)
-    assert r.handoff and r.agent == "human" and word in r.reply and len(chat.calls) == n
+    assert r.handoff and r.agent == "human" and word in r.reply and len(chat.calls) == 1
 
 
-def test_first_message_handoff_reply_is_english_because_no_router_language_exists_yet():
-    r = Chat([]).say("mujhe kisi insaan se baat karni hai")
-    assert r.handoff and r.agent == "human" and "Of course" in r.reply
+def test_a_request_for_a_person_with_an_emergency_gets_the_emergency_reply():
+    chat = Chat([route("human", emergency=True)])
+    r = chat.say("let me talk to a human, my dad is unconscious")
+    assert r.emergency and r.agent == "safety" and "108" in r.reply
+
+
+def test_emergency_after_a_handoff_still_gets_108():
+    chat = Chat([route("booking"), tool_use("cancel", {"appointment_id": "A1002"}), text("Passing you to staff."),
+                 route("info", emergency=True)], phone=ARJUN)
+    assert chat.say("cancel my appointment").handoff
+    r = chat.say("my father just collapsed and is not breathing")
+    assert r.emergency and r.agent == "safety" and "108" in r.reply
+
+
+def test_after_a_handoff_ordinary_messages_get_the_staff_reply_whatever_the_router_says():
+    chat = Chat([route("info", emergency=True), route("booking"), route("info")])
+    chat.say("I can't breathe")
+    for msg in ("book me with dr rao", "hello?"):
+        r = chat.say(msg)
+        assert r.agent == "human" and r.handoff and not r.emergency and "staff" in r.reply and "108" not in r.reply
 
 
 # ---- the booking agent with the real hooks -----------------------------------------------------
@@ -175,7 +200,7 @@ def test_off_topic_question_after_a_read_back_is_not_forced_back_to_booking():
 
 def test_cancel_inside_four_hours_hands_off_and_later_messages_go_to_staff():
     chat = Chat([route("booking"), tool_use("cancel", {"appointment_id": "A1002"}),
-                 text("That appointment is within 4 hours, so I'm passing you to our staff.")], phone=ARJUN)
+                 text("That appointment is within 4 hours, so I'm passing you to our staff."), route("booking")], phone=ARJUN)
     r1 = chat.say("I can't make it today, please cancel my appointment.")
     assert r1.handoff and chat.fake.appointments["A1002"]["status"] == "booked"
     r2 = chat.say("Yes, cancel it.")
@@ -196,6 +221,15 @@ def test_booking_prompt_has_the_hospital_date_and_calendar():
     system = system[0]["text"] if isinstance(system, list) else system
     assert "Tuesday 01 December 2026" in system and "Fri 04 Dec 2026 = 2026-12-04" in system and "never ask for or type a phone" in system
     assert chat.fake.calls_to("GET", "/now")
+
+
+def test_booking_and_billing_prompts_tell_the_model_not_to_state_hospital_facts():
+    for worker in ("booking", "billing"):
+        chat = Chat([route(worker), text("ok")])
+        chat.say("hello")
+        system = chat.calls[1]["system"]
+        system = system[0]["text"] if isinstance(system, list) else system
+        assert "not yours to state" in system
 
 
 def test_billing_flow_sends_a_link_only_after_confirmation():
