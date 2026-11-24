@@ -1,6 +1,6 @@
 """Hospital rules enforced in code (context.md section 5), as agentcore hooks.
 
-before_tool order:  identity -> ownership -> 4-hour window -> confirmation
+before_tool order:  validate input -> identity -> ownership -> 4-hour window -> confirmation
 after_tool:         release the pending confirmation, count failures, raise the handoff flag
 
 The model only ever sees the denial reason. Every check fails closed: if the hospital system
@@ -12,10 +12,12 @@ from __future__ import annotations
 from datetime import datetime, timedelta
 from typing import Any
 
-from agentcore import Deny, Hooks, RunContext, Tool, ToolCall, ToolResult
+from pydantic import ValidationError
+
+from agentcore import Deny, Hooks, Rewrite, RunContext, Tool, ToolCall, ToolResult
 
 from .hospital_api import HospitalAPI
-from .hospital_tools import PHONE_TOOLS, normalize_start
+from .hospital_tools import INPUT_MODELS, PHONE_TOOLS, normalize_start
 
 MIN_NOTICE = timedelta(hours=4)
 MAX_PENDING_TURNS = 3          # a read-back stays valid for this many later patient messages
@@ -41,6 +43,18 @@ def _records(ctx: RunContext) -> dict[str, Any]:
 
 
 def build_hooks(api: HospitalAPI) -> Hooks:
+    # ---- 0. input validation (pydantic) ------------------------------------------------------
+    def validate(ctx: RunContext, tool: Tool, call: ToolCall):
+        model = INPUT_MODELS.get(tool.name)
+        if model is None:
+            return None
+        try:
+            clean = model.model_validate(call.input).model_dump()
+        except ValidationError as exc:
+            problems = "; ".join(f"{'.'.join(str(p) for p in e['loc']) or 'input'}: {e['msg']}" for e in exc.errors())
+            return Deny(f"Invalid input for {tool.name} ({problems}). Fix the arguments and try again; do not guess ids.", "invalid_input")
+        return Rewrite(clean)   # trimmed, unknown fields dropped
+
     # ---- 1. identity -------------------------------------------------------------------------
     def identity(ctx: RunContext, tool: Tool, call: ToolCall):
         if tool.name in PHONE_TOOLS and not str(ctx.identity.get("phone") or "").isdigit():
@@ -128,7 +142,7 @@ def build_hooks(api: HospitalAPI) -> Hooks:
             ctx.state.pop("pending_action", None)   # a definite failure (e.g. slot taken): re-confirm next time
         return None
 
-    return Hooks(before_tool=[identity, ownership, four_hour_rule, confirmation], after_tool=[after])
+    return Hooks(before_tool=[validate, identity, ownership, four_hour_rule, confirmation], after_tool=[after])
 
 
 def _canonical(name: str, args: dict[str, Any]) -> dict[str, Any] | None:
