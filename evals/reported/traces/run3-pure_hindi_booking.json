@@ -1,0 +1,339 @@
+{
+ "session_id": "pure_hindi_booking-a5eff919",
+ "total_cost_usd": 0.001772,
+ "traces": [
+  {
+   "trace_id": "f01a919b1d2e4ba79e0038de96bce8f2",
+   "label": "turn 1",
+   "started_at": 1795540360.2403388,
+   "cost_usd": 0.000695,
+   "usage": {
+    "input_tokens": 2935,
+    "output_tokens": 562,
+    "cache_read_tokens": 12020,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540360.2425675,
+     "duration_s": 1.221,
+     "usage": {
+      "input_tokens": 160,
+      "output_tokens": 92,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 7e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540361.4636178,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "emergency": false,
+      "language": "hi"
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540361.464238,
+     "duration_s": 1.1729,
+     "usage": {
+      "input_tokens": 159,
+      "output_tokens": 103,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 9.5e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "find_doctors"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "find_doctors",
+     "started_at": 1795540362.637237,
+     "duration_s": 1.6788,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540364.316383,
+     "duration_s": 1.0278,
+     "usage": {
+      "input_tokens": 547,
+      "output_tokens": 79,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000122,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "free_slots"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "free_slots",
+     "started_at": 1795540365.344225,
+     "duration_s": 0.5214,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540365.8658059,
+     "duration_s": 1.2415,
+     "usage": {
+      "input_tokens": 876,
+      "output_tokens": 131,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000181,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "book"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "book",
+     "started_at": 1795540367.1073387,
+     "duration_s": 0.3602,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": true,
+      "denied": true
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540367.4681003,
+     "duration_s": 1.5567,
+     "usage": {
+      "input_tokens": 1193,
+      "output_tokens": 157,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000226,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  },
+  {
+   "trace_id": "031330fe9c914f17a34e455633dd7bc0",
+   "label": "turn 2",
+   "started_at": 1795540369.0294354,
+   "cost_usd": 0.001077,
+   "usage": {
+    "input_tokens": 4497,
+    "output_tokens": 1014,
+    "cache_read_tokens": 12020,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540369.0323672,
+     "duration_s": 1.5972,
+     "usage": {
+      "input_tokens": 335,
+      "output_tokens": 156,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.00012,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540370.6296234,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "language": "hi",
+      "emergency": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540370.6299052,
+     "duration_s": 2.2549,
+     "usage": {
+      "input_tokens": 334,
+      "output_tokens": 387,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000255,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "find_doctors",
+       "free_slots"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "find_doctors",
+     "started_at": 1795540372.8848946,
+     "duration_s": 0.7027,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "free_slots",
+     "started_at": 1795540372.8854208,
+     "duration_s": 1.1493,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": true,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540374.0348804,
+     "duration_s": 1.8026,
+     "usage": {
+      "input_tokens": 939,
+      "output_tokens": 79,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000161,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "free_slots"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "free_slots",
+     "started_at": 1795540375.8375444,
+     "duration_s": 0.6272,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540376.464857,
+     "duration_s": 2.4083,
+     "usage": {
+      "input_tokens": 1268,
+      "output_tokens": 171,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.00024,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "book"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "book",
+     "started_at": 1795540378.8732588,
+     "duration_s": 0.6396,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": true,
+      "denied": true
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540379.5129797,
+     "duration_s": 1.9721,
+     "usage": {
+      "input_tokens": 1621,
+      "output_tokens": 221,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000301,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  }
+ ]
+}

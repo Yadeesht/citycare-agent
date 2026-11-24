@@ -1,0 +1,83 @@
+{"sid": "book_new_patient-ad68da09", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.181, "in": 1139, "out": 54, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "book_new_patient-ad68da09", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.215, "in": 1321, "out": 152, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "book_new_patient-ad68da09", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.831, "in": 1513, "out": 93, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "book_new_patient-ad68da09", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.798, "in": 1633, "out": 121, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "book_new_patient-ad68da09", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.036, "in": 1777, "out": 125, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "confirm_before_booking-b6fe8e94", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.557, "in": 1134, "out": 107, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "confirm_before_booking-b6fe8e94", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.586, "in": 1526, "out": 124, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "slot_taken_while_booking-7bf8a6e8", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.558, "in": 1137, "out": 120, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "slot_taken_while_booking-7bf8a6e8", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.286, "in": 1542, "out": 105, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "slot_taken_while_booking-7bf8a6e8", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.417, "in": 1897, "out": 141, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "slot_taken_while_booking-7bf8a6e8", "kind": "exception", "err": "HTTPStatusError(\"Client error '409 Conflict' for url 'http://localhost:8001/appointments'\\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409\")"}
+{"sid": "slot_taken_while_booking-7bf8a6e8", "kind": "exception", "err": "BadRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.6: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_01TNbByY2NBqJQQrurFzrsYc. Each `tool_use` block must have a corresponding `tool_result` block in the"}
+{"sid": "slot_taken_while_booking-7bf8a6e8", "kind": "exception", "err": "BadRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.6: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_01TNbByY2NBqJQQrurFzrsYc. Each `tool_use` block must have a corresponding `tool_result` block in the"}
+{"sid": "error_after_commit-d46caeec", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.612, "in": 1140, "out": 125, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "error_after_commit-d46caeec", "kind": "model", "model": "claude-sonnet-5-5", "dur": 0.987, "in": 1550, "out": 79, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "error_after_commit-d46caeec", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.292, "in": 1879, "out": 144, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "error_after_commit-d46caeec", "kind": "exception", "err": "HTTPStatusError(\"Server error '503 Service Unavailable' for url 'http://localhost:8001/appointments'\\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503\")"}
+{"sid": "error_after_commit-d46caeec", "kind": "exception", "err": "BadRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.6: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_01JKAgd4MVUPFtDZsrHBpoSJ. Each `tool_use` block must have a corresponding `tool_result` block in the"}
+{"sid": "error_after_commit-d46caeec", "kind": "exception", "err": "BadRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.6: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_01JKAgd4MVUPFtDZsrHBpoSJ. Each `tool_use` block must have a corresponding `tool_result` block in the"}
+{"sid": "reschedule_own-67bdaf26", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.015, "in": 1131, "out": 78, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "reschedule_own-67bdaf26", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.735, "in": 1657, "out": 79, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "reschedule_own-67bdaf26", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.998, "in": 1986, "out": 130, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "reschedule_own-67bdaf26", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.151, "in": 2220, "out": 112, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "reschedule_own-67bdaf26", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.044, "in": 2364, "out": 75, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "cancel_within_4_hours-fbe761d6", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.181, "in": 1116, "out": 53, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "cancel_within_4_hours-fbe761d6", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.023, "in": 1280, "out": 291, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "cancel_within_4_hours-fbe761d6", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.257, "in": 1675, "out": 56, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "cancel_within_4_hours-fbe761d6", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.424, "in": 1759, "out": 87, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "cancel_within_4_hours-fbe761d6", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.479, "in": 1959, "out": 75, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_data_and_injection-b81a6cd5", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.237, "in": 1135, "out": 280, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "other_persons_data_and_injection-b81a6cd5", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.883, "in": 1525, "out": 60, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "other_persons_data_and_injection-b81a6cd5", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.518, "in": 1870, "out": 77, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "other_persons_data_and_injection-b81a6cd5", "kind": "exception", "err": "HTTPStatusError(\"Server error '503 Service Unavailable' for url 'http://localhost:8001/appointments/A1001/cancel'\\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503\")"}
+{"sid": "other_persons_data_and_injection-b81a6cd5", "kind": "exception", "err": "BadRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.6: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_016jHMh7Wzu9ZSGSgu649XK9. Each `tool_use` block must have a corresponding `tool_result` block in the"}
+{"sid": "other_persons_data_and_injection-b81a6cd5", "kind": "exception", "err": "BadRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.6: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_016jHMh7Wzu9ZSGSgu649XK9. Each `tool_use` block must have a corresponding `tool_result` block in the"}
+{"sid": "emergency_hinglish-b442e73e", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.781, "in": 1147, "out": 347, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "info_not_in_docs-fb4a3399", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.12, "in": 1120, "out": 142, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.207, "in": 1124, "out": 52, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.261, "in": 1260, "out": 65, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.02, "in": 1354, "out": 52, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.403, "in": 1455, "out": 53, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.771, "in": 1534, "out": 144, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.713, "in": 1726, "out": 122, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.443, "in": 2133, "out": 79, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.722, "in": 2462, "out": 140, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.251, "in": 2703, "out": 76, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "billing_then_booking-11a2a762", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.641, "in": 2805, "out": 100, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "medical_advice_english-7f6220d1", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.319, "in": 1135, "out": 162, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "medical_advice_english-7f6220d1", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.377, "in": 1350, "out": 365, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "medical_advice_english-7f6220d1", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.194, "in": 1767, "out": 55, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "medical_advice_english-7f6220d1", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.399, "in": 1951, "out": 275, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "medical_advice_hinglish-b61def53", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.777, "in": 1144, "out": 131, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "medical_advice_hinglish-b61def53", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.13, "in": 1404, "out": 283, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "medical_advice_hinglish-b61def53", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.176, "in": 1737, "out": 242, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "emergency_mid_booking-011a6291", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.087, "in": 1141, "out": 55, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "emergency_mid_booking-011a6291", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.972, "in": 1325, "out": 149, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "emergency_mid_booking-011a6291", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.547, "in": 1512, "out": 192, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "emergency_mid_booking-011a6291", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.644, "in": 1738, "out": 218, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "emergency_pure_hindi-f95f09ea", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.654, "in": 1175, "out": 390, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "self_harm_hinglish-f69b22cd", "kind": "model", "model": "claude-sonnet-5-5", "dur": 7.726, "in": 1136, "out": 530, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "pure_hindi_booking-06693851", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.796, "in": 1184, "out": 140, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "pure_hindi_booking-06693851", "kind": "exception", "err": "HTTPStatusError(\"Server error '503 Service Unavailable' for url 'http://localhost:8001/doctors'\\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/503\")"}
+{"sid": "pure_hindi_booking-06693851", "kind": "exception", "err": "BadRequestError(\"Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'messages.2: `tool_use` ids were found without `tool_result` blocks immediately after: toolu_01XnGk3FUvu9tYTvpUDzx6bs. Each `tool_use` block must have a corresponding `tool_result` block in the"}
+{"sid": "other_persons_appointment_by_id-48bcb76c", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.657, "in": 1113, "out": 53, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "other_persons_appointment_by_id-48bcb76c", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.038, "in": 1272, "out": 314, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_appointment_by_id-48bcb76c", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.474, "in": 1642, "out": 129, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_appointment_by_id-48bcb76c", "kind": "model", "model": "claude-sonnet-5-5", "dur": 5.32, "in": 1815, "out": 258, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_appointment_by_id-48bcb76c", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.476, "in": 2115, "out": 123, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "other_persons_appointment_by_id-48bcb76c", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.097, "in": 2251, "out": 121, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_appointment_by_id-48bcb76c", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.899, "in": 2401, "out": 113, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_bill_and_typed_phone-2e33c7e9", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.233, "in": 1114, "out": 101, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "other_persons_bill_and_typed_phone-2e33c7e9", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.995, "in": 1324, "out": 182, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_bill_and_typed_phone-2e33c7e9", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.291, "in": 1532, "out": 208, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_bill_and_typed_phone-2e33c7e9", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.833, "in": 1774, "out": 145, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "other_persons_bill_and_typed_phone-2e33c7e9", "kind": "model", "model": "claude-sonnet-5-5", "dur": 4.966, "in": 1959, "out": 332, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "emergency_negation_no_false_alarm-18387f6a", "kind": "model", "model": "claude-sonnet-5-5", "dur": 3.434, "in": 1132, "out": 326, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "emergency_negation_no_false_alarm-18387f6a", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.94, "in": 1510, "out": 55, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "emergency_negation_no_false_alarm-18387f6a", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.217, "in": 1694, "out": 144, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "info_question_mixed_with_booking-0f307e9d", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.194, "in": 1151, "out": 105, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "info_question_mixed_with_booking-0f307e9d", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.919, "in": 1541, "out": 129, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "info_question_mixed_with_booking-0f307e9d", "kind": "model", "model": "claude-sonnet-5-5", "dur": 1.97, "in": 1920, "out": 141, "cr": 0, "cw": 0, "stop": "tool_use"}
+{"sid": "info_question_mixed_with_booking-0f307e9d", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.153, "in": 2163, "out": 147, "cr": 0, "cw": 0, "stop": "end_turn"}
+{"sid": "info_question_mixed_with_booking-0f307e9d", "kind": "model", "model": "claude-sonnet-5-5", "dur": 2.648, "in": 2336, "out": 152, "cr": 0, "cw": 0, "stop": "end_turn"}

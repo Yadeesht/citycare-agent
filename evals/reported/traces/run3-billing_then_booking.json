@@ -1,0 +1,691 @@
+{
+ "session_id": "billing_then_booking-757db68c",
+ "total_cost_usd": 0.002966,
+ "traces": [
+  {
+   "trace_id": "4917277da4a044c9860aa9efadca0fcc",
+   "label": "turn 1",
+   "started_at": 1795540267.5930579,
+   "cost_usd": 0.000185,
+   "usage": {
+    "input_tokens": 409,
+    "output_tokens": 185,
+    "cache_read_tokens": 5180,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540267.5953858,
+     "duration_s": 1.2776,
+     "usage": {
+      "input_tokens": 100,
+      "output_tokens": 91,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 6.4e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "billing",
+     "started_at": 1795540268.873034,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "language": "en",
+      "emergency": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540268.8739235,
+     "duration_s": 0.9205,
+     "usage": {
+      "input_tokens": 99,
+      "output_tokens": 27,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 4.5e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "list_bills"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "list_bills",
+     "started_at": 1795540269.7945442,
+     "duration_s": 1.6095,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540271.4041145,
+     "duration_s": 1.0465,
+     "usage": {
+      "input_tokens": 210,
+      "output_tokens": 67,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 7.6e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  },
+  {
+   "trace_id": "eff26658dfdc4c45af4dd2a988cbec93",
+   "label": "turn 2",
+   "started_at": 1795540272.4535568,
+   "cost_usd": 0.000406,
+   "usage": {
+    "input_tokens": 1436,
+    "output_tokens": 377,
+    "cache_read_tokens": 7368,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540272.455373,
+     "duration_s": 1.2657,
+     "usage": {
+      "input_tokens": 179,
+      "output_tokens": 91,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 7.1e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "billing",
+     "started_at": 1795540273.7210674,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "language": "en",
+      "emergency": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540273.7212663,
+     "duration_s": 1.5486,
+     "usage": {
+      "input_tokens": 178,
+      "output_tokens": 172,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000126,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "list_bills"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "list_bills",
+     "started_at": 1795540275.2699935,
+     "duration_s": 1.7807,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540277.0509868,
+     "duration_s": 0.9121,
+     "usage": {
+      "input_tokens": 434,
+      "output_tokens": 52,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 9.1e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "payment_link"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "payment_link",
+     "started_at": 1795540277.9632745,
+     "duration_s": 0.5811,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": true,
+      "denied": true
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540278.5446038,
+     "duration_s": 1.215,
+     "usage": {
+      "input_tokens": 645,
+      "output_tokens": 62,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000117,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  },
+  {
+   "trace_id": "0103860adc4f4d8693cddc57c79ed80c",
+   "label": "turn 3",
+   "started_at": 1795540279.7618318,
+   "cost_usd": 0.000428,
+   "usage": {
+    "input_tokens": 1608,
+    "output_tokens": 388,
+    "cache_read_tokens": 7368,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540279.7635272,
+     "duration_s": 1.104,
+     "usage": {
+      "input_tokens": 250,
+      "output_tokens": 91,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 7.9e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "billing",
+     "started_at": 1795540280.8675785,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "emergency": false,
+      "language": "en"
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540280.8685877,
+     "duration_s": 1.7296,
+     "usage": {
+      "input_tokens": 249,
+      "output_tokens": 171,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000132,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "list_bills"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "list_bills",
+     "started_at": 1795540282.5983422,
+     "duration_s": 1.0783,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540283.6771386,
+     "duration_s": 1.035,
+     "usage": {
+      "input_tokens": 504,
+      "output_tokens": 52,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 9.8e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "payment_link"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "payment_link",
+     "started_at": 1795540284.712306,
+     "duration_s": 2.3143,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "billing",
+     "started_at": 1795540287.0269418,
+     "duration_s": 1.686,
+     "usage": {
+      "input_tokens": 605,
+      "output_tokens": 74,
+      "cache_read_tokens": 2188,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000119,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  },
+  {
+   "trace_id": "3765c4333e65477fb6bd07de79d3a64a",
+   "label": "turn 4",
+   "started_at": 1795540288.7212467,
+   "cost_usd": 0.000829,
+   "usage": {
+    "input_tokens": 4180,
+    "output_tokens": 581,
+    "cache_read_tokens": 12020,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540288.7239456,
+     "duration_s": 1.1086,
+     "usage": {
+      "input_tokens": 355,
+      "output_tokens": 91,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 8.9e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540289.8326263,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "language": "en",
+      "emergency": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540289.833615,
+     "duration_s": 1.91,
+     "usage": {
+      "input_tokens": 354,
+      "output_tokens": 192,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000159,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "find_doctors"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "find_doctors",
+     "started_at": 1795540291.7437544,
+     "duration_s": 1.4953,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540293.2394161,
+     "duration_s": 0.9878,
+     "usage": {
+      "input_tokens": 831,
+      "output_tokens": 79,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000151,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "free_slots"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "free_slots",
+     "started_at": 1795540294.22737,
+     "duration_s": 3.1098,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540297.3375156,
+     "duration_s": 1.6275,
+     "usage": {
+      "input_tokens": 1160,
+      "output_tokens": 136,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000212,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "book"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "book",
+     "started_at": 1795540298.9651415,
+     "duration_s": 1.827,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": true,
+      "denied": true
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540300.7925324,
+     "duration_s": 1.3567,
+     "usage": {
+      "input_tokens": 1480,
+      "output_tokens": 83,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000218,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  },
+  {
+   "trace_id": "78dd4b1e07604dcfa14f1ac02bfe2a16",
+   "label": "turn 5",
+   "started_at": 1795540302.15506,
+   "cost_usd": 0.001118,
+   "usage": {
+    "input_tokens": 5373,
+    "output_tokens": 921,
+    "cache_read_tokens": 12020,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540302.1598284,
+     "duration_s": 1.1872,
+     "usage": {
+      "input_tokens": 354,
+      "output_tokens": 91,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 8.9e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540303.3471036,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "language": "en",
+      "emergency": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540303.3475242,
+     "duration_s": 2.9556,
+     "usage": {
+      "input_tokens": 446,
+      "output_tokens": 411,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000278,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "find_doctors",
+       "free_slots"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "free_slots",
+     "started_at": 1795540306.303479,
+     "duration_s": 1.7151,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": true,
+      "denied": false
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "find_doctors",
+     "started_at": 1795540306.303162,
+     "duration_s": 3.509,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540309.8127177,
+     "duration_s": 1.2914,
+     "usage": {
+      "input_tokens": 1233,
+      "output_tokens": 79,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000191,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "free_slots"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "free_slots",
+     "started_at": 1795540311.104174,
+     "duration_s": 1.0625,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540312.1669083,
+     "duration_s": 1.6583,
+     "usage": {
+      "input_tokens": 1562,
+      "output_tokens": 115,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000242,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "book"
+      ]
+     }
+    },
+    {
+     "kind": "tool",
+     "name": "book",
+     "started_at": 1795540313.8253202,
+     "duration_s": 0.5914,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "is_error": false,
+      "denied": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540314.4169998,
+     "duration_s": 1.8087,
+     "usage": {
+      "input_tokens": 1778,
+      "output_tokens": 225,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000318,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  }
+ ]
+}

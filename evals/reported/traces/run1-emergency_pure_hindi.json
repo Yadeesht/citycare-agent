@@ -1,0 +1,52 @@
+{
+ "session_id": "emergency_pure_hindi-015336ab",
+ "total_cost_usd": 0.000136,
+ "traces": [
+  {
+   "trace_id": "f786811e0e004452a10297a663d9f6cf",
+   "label": "turn 1",
+   "started_at": 1795539632.136302,
+   "cost_usd": 0.000136,
+   "usage": {
+    "input_tokens": 151,
+    "output_tokens": 225,
+    "cache_read_tokens": 804,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795539632.1421015,
+     "duration_s": 1.7645,
+     "usage": {
+      "input_tokens": 151,
+      "output_tokens": 225,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000136,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "human",
+     "started_at": 1795539633.9066105,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "emergency": true,
+      "language": "hi"
+     }
+    }
+   ]
+  }
+ ]
+}

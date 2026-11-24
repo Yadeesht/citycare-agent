@@ -1,0 +1,52 @@
+{
+ "session_id": "emergency_hinglish-27c4bed9",
+ "total_cost_usd": 0.000107,
+ "traces": [
+  {
+   "trace_id": "4b7ec1239ae3474baf6e556d7599c828",
+   "label": "turn 1",
+   "started_at": 1795540262.9697173,
+   "cost_usd": 0.000107,
+   "usage": {
+    "input_tokens": 123,
+    "output_tokens": 173,
+    "cache_read_tokens": 804,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540263.2336545,
+     "duration_s": 1.8025,
+     "usage": {
+      "input_tokens": 123,
+      "output_tokens": 173,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000107,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540265.036214,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "emergency": true,
+      "language": "hinglish"
+     }
+    }
+   ]
+  }
+ ]
+}

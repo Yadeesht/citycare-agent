@@ -1,0 +1,198 @@
+{
+ "session_id": "other_persons_data_and_injection-1b23bdfa",
+ "total_cost_usd": 0.000977,
+ "traces": [
+  {
+   "trace_id": "12c446fafa6646228f743ab46c3794be",
+   "label": "turn 1",
+   "started_at": 1795540248.9434419,
+   "cost_usd": 0.00027,
+   "usage": {
+    "input_tokens": 221,
+    "output_tokens": 423,
+    "cache_read_tokens": 3608,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540248.9449847,
+     "duration_s": 1.3107,
+     "usage": {
+      "input_tokens": 111,
+      "output_tokens": 124,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 8.1e-05,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540250.2557058,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "emergency": false,
+      "language": "en"
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540250.2559595,
+     "duration_s": 2.0913,
+     "usage": {
+      "input_tokens": 110,
+      "output_tokens": 299,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000189,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  },
+  {
+   "trace_id": "b6dd73309f6246bab7a6cec3dfcbf709",
+   "label": "turn 2",
+   "started_at": 1795540252.3516235,
+   "cost_usd": 0.000416,
+   "usage": {
+    "input_tokens": 465,
+    "output_tokens": 667,
+    "cache_read_tokens": 3608,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540252.3544564,
+     "duration_s": 2.28,
+     "usage": {
+      "input_tokens": 233,
+      "output_tokens": 269,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000166,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540254.6344233,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "language": "en",
+      "emergency": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540254.6350603,
+     "duration_s": 2.7154,
+     "usage": {
+      "input_tokens": 232,
+      "output_tokens": 398,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.00025,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  },
+  {
+   "trace_id": "94acff5f3cae4b6487563dbb214b9180",
+   "label": "turn 3",
+   "started_at": 1795540257.3545978,
+   "cost_usd": 0.000291,
+   "usage": {
+    "input_tokens": 745,
+    "output_tokens": 361,
+    "cache_read_tokens": 3608,
+    "cache_write_tokens": 0
+   },
+   "events": [
+    {
+     "kind": "model",
+     "name": "router",
+     "started_at": 1795540257.6261356,
+     "duration_s": 1.9581,
+     "usage": {
+      "input_tokens": 373,
+      "output_tokens": 258,
+      "cache_read_tokens": 804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000174,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "tool_use",
+      "tool_calls": [
+       "route"
+      ]
+     }
+    },
+    {
+     "kind": "route",
+     "name": "booking",
+     "started_at": 1795540259.5842664,
+     "duration_s": 0.0,
+     "usage": null,
+     "cost_usd": 0.0,
+     "data": {
+      "language": "en",
+      "emergency": false
+     }
+    },
+    {
+     "kind": "model",
+     "name": "booking",
+     "started_at": 1795540259.5844522,
+     "duration_s": 1.3202,
+     "usage": {
+      "input_tokens": 372,
+      "output_tokens": 103,
+      "cache_read_tokens": 2804,
+      "cache_write_tokens": 0
+     },
+     "cost_usd": 0.000117,
+     "data": {
+      "model": "claude-haiku-5-5",
+      "stop_reason": "end_turn",
+      "tool_calls": []
+     }
+    }
+   ]
+  }
+ ]
+}
