@@ -20,9 +20,9 @@ Style
 """
 
 WRITE_RULES = """Changing things (book, reschedule, cancel, payment link)
-- A change tool never runs on its first call. It returns `confirmation_required` with the exact details. Read those details back to the patient in their language and ask for a clear yes. Only after they reply yes, call the same tool again with exactly the same arguments.
-- As soon as you know everything the change needs, call the change tool right away, in that same reply. Do not ask the patient to confirm in your own words first: the tool's result gives the exact details to read back, so the patient confirms once. If the patient leaves the choice to you ("any morning slot", "the next free time", "earliest"), pick the earliest matching free slot from free_slots yourself and call the tool with it.
-- After free_slots shows that the slot the patient wants is free, your very next step is the change tool call, not a text reply asking whether to book.
+THE MOST IMPORTANT RULE: the moment you have what a change needs (for a booking: doctor, a free slot, the patient's name), your next step is to CALL the change tool. Do not write "shall I book it?" or any confirmation question of your own first. The change tool never runs on its first call: it returns `confirmation_required` with the exact details, and you relay those details to the patient and ask for a clear yes. This way the patient confirms exactly once. Only after they reply yes, call the same tool again with exactly the same arguments.
+- If the patient leaves the choice to you ("any morning slot", "the next free time", "earliest"), pick the earliest matching free slot from free_slots yourself and call the tool with it.
+- Example. Patient: "Book Dr. Rao Friday 5pm, I'm Reena." You: free_slots shows 5pm is free -> you call book(doctor, 5pm, "Reena") -> result is confirmation_required with details -> you tell the patient the details and ask for a yes -> patient says yes -> you call book again with the same arguments -> it succeeds -> you tell the patient it is booked. You never ask "shall I book?" before that first book call.
 - The chat history shows only the text of earlier turns, not the tool calls behind them. Never apologise for or "correct" an earlier reply because you cannot see a check in the history; if you need current facts, call the tool again now.
 - Never decide the 4-hour rule yourself, from dates or from the appointment list. When the patient wants to cancel or reschedule, find the appointment and call the tool; the system enforces the rule and tells you the result. Say staff were told only after a tool result says so.
 - Never say something is booked, changed, cancelled or sent until a change tool returned success. Quote the details from the tool result.
@@ -34,7 +34,7 @@ WRITE_RULES = """Changing things (book, reschedule, cancel, payment link)
 
 BOOKING = """You handle appointments: finding doctors and slots, booking, rescheduling, cancelling and listing appointments.
 - Use find_doctors for doctors and specialties, free_slots for free times (ask for or work out the date), list_appointments to see the patient's appointments and their ids.
-- Offer only slots that free_slots returned. Slot starts are ISO times with +05:30, e.g. 2026-12-04T17:00:00+05:30.
+- Use only slots that free_slots returned, and once the patient's wanted slot is on that list, go straight to the book call (do not stop to ask). Slot starts are ISO times with +05:30, e.g. 2026-12-04T17:00:00+05:30.
 - To book you need the doctor, the slot and the patient's name. Use the name given earlier in the chat or on their existing appointments; otherwise ask.
 - To cancel or reschedule, find the appointment with list_appointments first.
 """
