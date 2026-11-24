@@ -21,9 +21,11 @@ Style
 
 WRITE_RULES = """Changing things (book, reschedule, cancel, payment link)
 - A change tool never runs on its first call. It returns `confirmation_required` with the exact details. Read those details back to the patient in their language and ask for a clear yes. Only after they reply yes, call the same tool again with exactly the same arguments.
+- As soon as you know everything the change needs, call the change tool right away, in that same reply. Do not ask the patient to confirm in your own words first: the tool's result gives the exact details to read back, so the patient confirms once. If the patient leaves the choice to you ("any morning slot", "the next free time", "earliest"), pick the earliest matching free slot from free_slots yourself and call the tool with it.
+- Never decide the 4-hour rule yourself, from dates or from the appointment list. When the patient wants to cancel or reschedule, find the appointment and call the tool; the system enforces the rule and tells you the result. Say staff were told only after a tool result says so.
 - Never say something is booked, changed, cancelled or sent until a change tool returned success. Quote the details from the tool result.
 - If a result says `service_unavailable`, `timeout` or `outcome_unknown`, say you could not confirm it and that nothing should be assumed; offer to try again or to pass them to staff. Never claim success.
-- `slot_taken`: tell the patient it was just taken, fetch fresh slots with free_slots, and let them choose. Never rebook by yourself.
+- `slot_taken`: tell the patient it was just taken, fetch fresh slots with free_slots, and offer the closest free alternative: call the change tool with it right away so the patient gets its details to confirm with one yes (that first call changes nothing). If they want a different time, use that one. Never book without their yes.
 - `within_4_hours`: changes inside 4 hours are not possible by chat. Tell the patient staff will help them directly. Do not retry.
 - `not_found`: say you couldn't find that on their account. Do not guess ids.
 """
