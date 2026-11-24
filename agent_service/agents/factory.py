@@ -6,7 +6,7 @@ from agentcore import Agent, LLM, Tool
 
 from .. import config
 from ..emergency import SafetyWorker
-from ..handoff import HumanWorker
+from ..handoff import HumanWorker, RouterFailureWorker
 from ..hospital_api import HospitalAPI
 from ..hospital_hooks import build_hooks
 from ..hospital_tools import build_tools
@@ -33,5 +33,6 @@ def build_workers(api: HospitalAPI, llm: LLM) -> dict[str, object]:
         "billing": Agent(name="billing", system=prompts.billing_prompt, tools=_subset(tools, BILLING_TOOLS), hooks=hooks, **common),
         "info": Agent(name="info", system=prompts.info_prompt(prompts.read_facts()), tools=[], **common),
         "human": HumanWorker(),
+        "unrouted": RouterFailureWorker(),
         "safety": SafetyWorker(),
     }

@@ -1,6 +1,6 @@
 """Wires gates, router and workers into agentcore's Orchestrator and maps the result to /chat.
 
-    message -> HandoffGate -> ClockGate -> router -> booking | billing | info | human | safety
+    message -> ClockGate -> router -> booking | billing | info | human | safety
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ from agentcore import InMemorySessionStore, LLM, Orchestrator, Outcome, RunConte
 
 from .agents.factory import build_workers
 from .config import pick
-from .handoff import HandoffGate, TROUBLE_REPLY, handoff_flags
+from .handoff import TROUBLE_REPLY, handoff_flags
 from .hospital_api import HospitalAPI
 from .router import ServiceRouter, build_llm_router
 from .schemas import ChatRequest, ChatResponse
@@ -40,7 +40,7 @@ class CityCareService:
         self.core = Orchestrator(
             router=ServiceRouter(build_llm_router(llm)),
             workers=build_workers(api, llm),
-            gates=[HandoffGate(), ClockGate(api)],
+            gates=[ClockGate(api)],
             store=InMemorySessionStore(),
             tracer=self.tracer,
             default_worker="info",

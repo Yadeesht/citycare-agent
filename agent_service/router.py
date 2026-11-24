@@ -1,7 +1,8 @@
 """The router (LLMRouter on the cheap model) plus one service rule around it.
 
-The router model alone decides the language and whether there is an emergency (no regexes or
-word lists). If it reports `emergency`, the message goes to the safety worker. Everything else is the
+The router model alone decides the language, whether there is an emergency, and whether the patient wants a
+person (no regexes or word lists). It runs on every message. Emergency -> safety worker; router failure -> `unrouted`
+(resend / call 108 / front desk, no agent); a chat already handed to staff -> human worker. Everything else is the
 router's call: it sees the recent transcript, so a bare "yes" after a read-back goes back to the
 agent that asked.
 """
@@ -45,6 +46,10 @@ class ServiceRouter:
         language = route.meta.get("language")
         if language in LANGUAGES:
             ctx.state["language"] = language
-        if route.meta.get("emergency") is True:
+        if route.meta.get("emergency") is True:   # first: an emergency beats a handoff, a staff chat and any request
             return Route("safety", {**route.meta, "routed_from": route.worker})
+        if "router_error" in route.meta:          # the router call failed or gave no usable answer: no agent runs unrouted
+            return Route("unrouted", route.meta)
+        if ctx.state.get("handed_off"):          # the chat belongs to staff now; the agents stay out of it
+            return Route("human", {**route.meta, "routed_from": route.worker})
         return route
