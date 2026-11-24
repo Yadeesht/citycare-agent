@@ -113,7 +113,10 @@ class Agent:
 
         problems = validate_input(tool.input_schema, call.input)
         if problems:
-            return result({"error": "invalid_input", "message": "; ".join(problems)}, is_error=True)
+            return await self._after(
+                ctx, tool, call,
+                result({"error": "invalid_input", "message": "; ".join(problems)}, is_error=True),
+            )
 
         decision, call = await self.hooks.run_before_tool(ctx, tool, call)
         if isinstance(decision, Deny):
@@ -124,7 +127,10 @@ class Agent:
 
         problems = validate_input(tool.input_schema, call.input)  # a rewrite must still be valid
         if problems:
-            return result({"error": "invalid_input", "message": "; ".join(problems)}, is_error=True)
+            return await self._after(
+                ctx, tool, call,
+                result({"error": "invalid_input", "message": "; ".join(problems)}, is_error=True),
+            )
 
         try:
             out = tool.fn(ctx, call.input)
