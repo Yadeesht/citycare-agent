@@ -11,6 +11,12 @@ The API key has a very limited budget ($30 total for Claude Code + agents + eval
 - Prefer the cheapest check: reading code, static analysis, and `--only <scenario>` over full sweeps.
 - Use FakeClaude (`tests/fake_claude.py`) for tests; tests must never need an API key.
 
+## Testing rule
+
+- Tests run on FakeClaude (free, no API key), so you may run `uv run pytest tests/agentcore -q` (and other FakeClaude-only tests) **without asking**. Anything that calls the real API still needs confirmation.
+- After every change to `agentcore/` or `agent_service/`, run the FakeClaude tests before reporting done. Fix failures, or say why one is a test bug rather than a code bug.
+- New behaviour gets a test in the same change. Report pass/fail counts plainly.
+
 ## Hard constraints
 
 - `agentcore/` has **zero hospital imports**: no `mock_hospital`, no `agent_service`, no hospital vocabulary (doctors, appointments, bills). Hospital logic lives in `agent_service/`.

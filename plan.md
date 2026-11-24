@@ -35,36 +35,46 @@ Predicted baseline: 01 and 05 may pass calm; 02, 03, 04, 06, 07, 08, 09, 10 shou
 
 ## 3. Architecture
 
-### `agentcore/` (generic runtime)
+### `agentcore/` — a reusable AI layer (revised)
+
+**Boundary rule:** agentcore knows about models, tools, hooks, sessions, tracing and routing *mechanics* only. It contains **no agent names, no prompts, no emergency logic, no handoff logic, no domain vocabulary**. Anything with a name, a prompt or a policy is defined in `agent_service/` and passed in. Safety/handoff are just flags the service sets through generic hooks and gates. An AST + word-list test enforces this.
+
+Router/workers model: `Orchestrator(gates, router, workers)`. A **gate** can short-circuit before routing, the **router** picks a worker by name, a **worker** is anything with `run(ctx, messages)` (an `Agent` satisfies it).
 
 | Module | Responsibility |
 |---|---|
-| `llm.py` | `LLM` protocol with `async create(**kw) -> Message`. `AnthropicLLM` (AsyncAnthropic, `cache_control` on system+tools, timeout, retry on 429/5xx/overloaded). `SyncAdapter` wraps `tests/fake_claude.FakeClaude` so tests need no key. |
-| `tools.py` | `Tool(name, description, input_schema, fn, kind="read"\|"write", timeout_s)`; `ToolRegistry`; arg validation against schema; every exception/timeout becomes `is_error` tool_result, never a crash. |
-| `hooks.py` | `before_tool(ctx, call) -> Allow \| Deny(msg_to_model) \| Rewrite(args)`, `after_tool(ctx, call, result)`, plus `before_model`/`after_model`. Ordered, composable, each unit-testable. |
-| `loop.py` | `Agent(name, system, tools, hooks, model)` + `run(ctx, messages)`: model -> parallel tool_use -> hooks -> tools -> repeat. Guards: `max_iterations`, `max_tokens`, per-run cost budget, handles `max_tokens`/`refusal`/empty stop reasons. Returns `RunResult(text, messages, usage, stop_reason)`. |
-| `context.py` | `RunContext`: trusted `identity` (opaque dict set by the service, never by the model), `state` (flags like `handoff`, `emergency`, pending actions, failure counter), turn counter, clock callable. |
-| `session.py` | `SessionStore` protocol + in-memory impl; per-session `asyncio.Lock`; history trimming. |
-| `tracing.py` / `cost.py` | `Tracer` records every model call and tool call (start, duration, tokens in/out/cache, cost from a pricing table passed in by the host); `trace_id` per run; queryable per session. |
-| `retry.py` | Generic backoff/jitter helper; `RetryPolicy` per tool (reads: retry; writes: only if tool declares idempotent or supplies a `reconcile` callback). |
+| `types.py` | Frozen dataclasses: `Usage`, `ToolCall`, `ToolResult` (+`to_block()`), `ModelResponse`, `RunResult`, `StopReason`. No raw dicts cross module boundaries. |
+| `results.py` | `ApiResult[T]` dataclass for structured outcomes from any external API (`ok`, `data`, `error`, `message`, `status`, `retryable`, `outcome_unknown`), `ApiResult.success/failure`, `parse(cls, data)` (JSON dict -> dataclass, ignores unknown keys), `to_jsonable()`. Domain dataclasses (e.g. an appointment) are defined in `agent_service/models.py`, built with `parse`. |
+| `llm.py` | `LLM` protocol (`async create(**kw)`); `AnthropicLLM` (AsyncAnthropic, `cache_control` on system + last tool); `SyncAdapter` so `tests/fake_claude.FakeClaude` works; `complete()` normalises a raw reply into `ModelResponse`, prices it and records a trace event. |
+| `tools.py` | `Tool(name, description, input_schema, fn, kind, timeout_s)`, `ToolRegistry`, light JSON-schema validation. `fn(ctx, args)` may return plain data or an `ApiResult`. |
+| `hooks.py` | `before_tool -> Allow/Deny/Rewrite`, `after_tool`, `before_model`, `after_model`. Ordered, first Deny wins, **a crashing hook fails closed (Deny)**. |
+| `context.py` | `RunContext`: read-only `identity` (set by the service, never by the model), persistent `state`, per-turn `flags`, `turn`, tracer handle. |
+| `loop.py` | `Agent(name, system, model, llm, tools, hooks, pricing, limits)` with `run(ctx, messages) -> RunResult`. Parallel tool calls, tool errors returned to the model, `max_iterations`, cost budget, handles `max_tokens`/`refusal`/`pause_turn`/LLM exceptions without raising. `system` may be a string or `callable(ctx)`. |
+| `session.py` | `Session`, `InMemorySessionStore` with per-session `asyncio.Lock`; `trim_history` that never splits tool pairs. Shared transcript is **text-only** so any worker can continue it. |
+| `tracing.py` / `cost.py` | `Tracer`/`Trace`/`TraceEvent` (model + tool events: timing, tokens, cost); `Pricing` table supplied by the host. |
+| `retry.py` | `RetryPolicy`, `call_with_retry` (on `ApiResult.retryable`), `execute_write` (retry + `reconcile` callback when `outcome_unknown`). |
+| `orchestrator.py` | `Route`, `Intercept`, `Outcome`, `Gate`/`Router` protocols, `Orchestrator.handle(session_id, identity, message)`, and `LLMRouter` (one cheap model call, worker names/descriptions and extra metadata schema supplied by the service). |
 
-Generic primitives that carry the safety rules without knowing hospitals:
-- **Two-phase write**: a `write` tool may be registered with `requires_confirmation=True`. Generic hook: the call is denied unless `ctx.state["pending"]` holds an identical action created in an **earlier user turn** (turn counter), so propose + commit in one message is impossible. Read-back text comes from the proposal.
-- **Reconcile callback** on write tools: on ambiguous failure (timeout/503) run `reconcile(args)` against the source of truth and return the verified outcome.
-- **Deny reasons feed back to the model** as tool errors so it explains and recovers instead of looping.
+Generic primitives that carry the safety rules without knowing the domain:
+- **Hooks as the enforcement point**: ownership, confirmation, time-window rules are service hooks that Deny; the model only sees the denial reason.
+- **Reconcile**: after an ambiguous write failure (`outcome_unknown`), `execute_write` runs a service-supplied check against the source of truth before reporting.
+- **Gates**: service-supplied pre-routing checks that can answer without any model or worker.
 
-### `agent_service/` (hospital layer; all hospital knowledge lives here)
+### `agent_service/` (everything with a name, a prompt, or a policy)
 
 | Module (new) | Responsibility |
 |---|---|
-| `hospital_api.py` | Async httpx client: timeouts, retry+backoff on 503/timeouts for reads, `/now` clock, error-code mapping (`slot_taken`, `invalid_slot`, ...). Old `hospital_client.py` untouched. |
-| `hospital_tools.py` | Tool definitions. **No `phone` parameter anywhere**; phone is injected from `ctx.identity`. Slots returned as formatted day/date/time so the model needn't compute weekdays. |
-| `hospital_hooks.py` | Code-enforced rules (below). |
-| `emergency.py` | Deterministic pass: normalised keyword/regex set in English, Hindi (Devanagari) and Hinglish (seene dard, saans, behosh, khoon, zeher, ...). Returns canned safety replies (en/hi/hinglish): 108 + 24-hour ER, `emergency=True`, `handoff=True`, `agent="safety"`, no advice, no tools. |
-| `router.py` | One Haiku call returning `{route, emergency, language}` via a single tool call. `emergency = regex OR Haiku` (regex is the floor, Haiku catches paraphrases). If a pending confirmation exists, route to its owning agent regardless (so "yes" never reaches info). Router verifies forced `tool_choice` support on Haiku 5.5 in current docs before use; fall back to JSON-in-text. |
-| `agents/booking.py`, `billing.py`, `info.py`, `human.py` | Prompts + tool subsets. **info**: no tools, `hospital_info.md` embedded verbatim in the cached system prompt. **human**: no LLM, localized canned handoff reply, `handoff=True`. **booking/billing**: Haiku first, escalate to Sonnet 5.5 only if evals show it's needed (numbers go in DESIGN.md). |
-| `orchestrator.py` | `handle(req)`: lock session -> emergency -> router -> agent -> build `ChatResponse` from `ctx.state`. Shared session transcript (user/assistant text + facts like patient name) is passed to every agent so billing->booking doesn't re-ask. |
-| `app.py` | Switch `/chat` to orchestrator; implement `GET /trace/{session_id}`. |
+| `models.py` | Domain dataclasses (`Doctor`, `Appointment`, `Bill`, `PaymentLink`, ...) parsed from API JSON via `agentcore.parse`. |
+| `hospital_api.py` | Async httpx client returning `ApiResult[...]`: timeouts, retry/backoff on 503, `/now`, error-code mapping, deterministic idempotency keys. Old `hospital_client.py` untouched. |
+| `hospital_tools.py` | Tool definitions. **No `phone` parameter anywhere**; identity injected from `ctx.identity`. |
+| `hospital_hooks.py` | Code-enforced rules: ownership, confirmation gate, 4-hour window, failure counter, handoff flag. |
+| `emergency.py` | A **gate**: regex floor (English/Hindi/Hinglish) + router-reported flag -> canned safety reply (108, 24-hour ER), `emergency` and `handoff` flags, `agent="safety"`. |
+| `handoff.py` | Handoff policy (upset/asks for person/2 failures) and localized canned reply. |
+| `router.py` | Builds the `LLMRouter` (route names, descriptions, language/emergency metadata schema, prompt) and the "pending confirmation sticks to its owner" wrapper. |
+| `agents/booking.py`, `billing.py`, `info.py`, `human.py` | Names, prompts, tool subsets, model choice. **info**: no tools, `hospital_info.md` in the cached system prompt. **human**: canned reply, no LLM. |
+| `orchestrator.py` | Wires gates + router + workers into `agentcore.Orchestrator`, maps `Outcome` to `ChatResponse`. |
+| `app.py` | `/chat` -> orchestrator; `GET /trace/{session_id}`. |
+
 
 ### Code-enforced rules map (context.md §5)
 
@@ -72,18 +82,18 @@ Generic primitives that carry the safety rules without knowing hospitals:
 |---|---|
 | 1 Own data | Tools take no phone; `before_tool` on any `appointment_id`/`bill_id` fetches the record and requires `record.phone == ctx.identity.phone`, else Deny with a neutral message (no details leaked). List tools are scoped to identity. |
 | 2 Confirm | `requires_confirmation` two-phase write on book/reschedule/cancel/payment_link; read-back is generated by code from the pending action (doctor, day, date, time / bill + amount). |
-| 3 4-hour | `before_tool` on reschedule/cancel reads `/now` and appointment start; inside 4h -> Deny, `ctx.handoff=True`. |
+| 3 4-hour | `before_tool` on reschedule/cancel reads `/now` and appointment start; inside 4h -> Deny and set the `handoff` flag (service hook). |
 | 4 Emergency | `emergency.py` + router, before any agent; checked on every message, not just the first. |
 | 5 No advice | Prompt + router rule; no code check exists for free text, so I'll note this as a known soft spot in DESIGN.md and cover it with an own scenario. |
 | 6 Facts only | Info agent gets only `hospital_info.md`; "don't know" -> offer staff. |
 | 7 Language | Router returns language; passed to agent prompt; canned replies localized. |
-| 8 Handoff | Triggers: router `human`, upset signals, or `ctx.state.failures >= 2` on the same request (counted in `after_tool`). |
+| 8 Handoff | Triggers: router `human`, upset signals, or `ctx.state["failures"] >= 2` on the same request (counted in `after_tool`). |
 | 9 No false claims | Writes verified: `book` uses a deterministic `idempotency_key` (session+doctor+start) and retries safely; cancel/reschedule on 503 run `reconcile` (GET appointment, compare state) before reporting; `slot_taken` returns fresh slots and **never** auto-rebooks. |
 
 ## 4. Build order (each step ends with a pause for your OK)
 
-1. `CLAUDE.md` + copy this plan to `plan.md`. Add `agentcore/` skeleton + the **no-hospital-imports AST test**.
-2. `agentcore` core: `llm`, `tools`, `loop`, `hooks`, `context`, `tracing/cost`, `retry`, `session` + unit tests on FakeClaude (loop, parallel tools, deny, max_iterations, max_tokens/refusal, tool exceptions, retry/reconcile, cost math, two-phase confirm).
+1. DONE: `CLAUDE.md`, `plan.md`.
+2. `agentcore` (generic, no domain words) + independent unit tests in `tests/agentcore/` on FakeClaude: types/results, tools, hooks (fail-closed), loop (parallel tools, deny, limits, stop reasons, LLM errors), retry/reconcile, tracing/cost, session trim, orchestrator + LLMRouter, and the isolation test (no hospital imports or domain words). Tests are written but only run on your confirmation.
 3. `hospital_api` + `hospital_tools` + `hospital_hooks` + tests using `httpx.MockTransport` (never imports `mock_hospital`): ownership, 4h, confirm gate, idempotent retry, commit-then-503 reconcile, 409 recovery.
 4. `emergency.py` (+ table-driven tests across en/hi/hinglish incl. negatives like "my chest-pain appointment last year"), `router.py`, agents, orchestrator, `/chat`, `/trace`.
 5. **Your go**: run evals calm, once -> fix -> `--runs 3 --chaos` x1, review failures, then the 3 reported runs. Budget check with `/cost` before each.
