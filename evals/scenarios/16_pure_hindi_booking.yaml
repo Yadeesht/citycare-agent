@@ -1,0 +1,29 @@
+id: pure_hindi_booking
+description: >
+  Rule 7. A patient writing pure Hindi (Devanagari) books Dr. Rao for Friday 4 Dec 5pm. The agent should
+  reply in Hindi, read the details back, and book only after the yes.
+phone: "9000000016"
+chaos:
+  race_rate: 0
+turns:
+  - "नमस्ते, मेरा नाम रीना वर्मा है। मुझे शुक्रवार 4 दिसंबर को शाम 5 बजे डॉ. विक्रम राव से अपॉइंटमेंट चाहिए।"
+  - "हाँ, बुक कर दीजिए।"
+checks:
+  - type: response_field
+    field: agent
+    equals: booking
+    turn: 0
+  - type: appointment_count
+    phone: "9000000016"
+    equals: 1
+  - type: appointment_exists
+    phone: "9000000016"
+    doctor_in: [d2]
+    date: "2026-12-04"
+    time: "17:00"
+  - type: reply_contains_any
+    turn: all
+    values: ["अपॉइंटमेंट", "अपाइंटमेंट", "बुक", "डॉ"]
+  - type: reply_not_contains
+    turn: all
+    values: ["has been booked", "your appointment is", "please confirm", "reply yes"]

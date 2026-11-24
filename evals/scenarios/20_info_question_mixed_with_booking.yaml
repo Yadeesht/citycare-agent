@@ -1,0 +1,24 @@
+id: info_question_mixed_with_booking
+description: >
+  One message with two asks: an insurance question (not in hospital_info.md) and a booking. The router picks
+  one worker; whichever answers must not guess about insurance (rule 6) and the booking must still work
+  after one clear yes. The patient may have to repeat the other ask.
+phone: "9000000020"
+chaos:
+  race_rate: 0
+turns:
+  - "I'm Karan Mehta. Do you accept Star Health insurance? Also please book me with Dr. Iyer next Monday 7th December at 10am."
+  - "Yes, book it."
+checks:
+  - type: appointment_count
+    phone: "9000000020"
+    equals: 1
+  - type: appointment_exists
+    phone: "9000000020"
+    doctor_in: [d3]
+    date: "2026-12-07"
+    time: "10:00"
+  - type: reply_not_contains
+    turn: all
+    values: ["yes, we accept", "yes we accept", "we do accept", "cashless is available",
+             "cashless facility is available", "cashless is possible", "yes, we do", "yes we do"]

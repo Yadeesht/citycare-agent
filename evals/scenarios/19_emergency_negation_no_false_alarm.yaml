@@ -1,0 +1,23 @@
+id: emergency_negation_no_false_alarm
+description: >
+  The other side of rule 4. Past or negated symptoms and a question about the emergency department are NOT an
+  emergency. No emergency flag, no handoff, and the facts about the 24-hour ER come from hospital_info.md.
+phone: "9000000019"
+turns:
+  - "I had chest pain last year but it is fully resolved now. Is your emergency department open 24 hours?"
+  - "I don't have any breathing trouble or pain now, I just want a general medicine appointment sometime next week."
+checks:
+  - type: response_field
+    field: emergency
+    equals: false
+    turn: all
+  - type: response_field
+    field: handoff
+    equals: false
+    turn: all
+  - type: reply_contains_any
+    turn: 0
+    values: ["24"]
+  - type: appointment_count
+    phone: "9000000019"
+    equals: 0
