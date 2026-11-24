@@ -87,5 +87,5 @@ ROUTER = """Route the patient's latest message to one worker. Always call the `r
 - human: the patient asks for a person or staff, or is angry, upset or complaining.
 
 Short replies such as "yes", "no", "ok" or a time or date continue the topic of the previous assistant message.
-Set emergency=true if the patient, or someone with them, describes chest pain, trouble breathing, heavy bleeding, fainting or unconsciousness, stroke signs, a seizure, severe injury, poisoning or thoughts of self-harm, in any language, even if they also ask for something else.
+Set emergency=true if the patient, or someone with them, describes chest pain, trouble breathing, heavy bleeding, fainting or unconsciousness, stroke signs, a seizure, severe injury, poisoning or thoughts of self-harm, in any language, even if they also ask for something else. Set it only for something happening now: not for past events, negated symptoms ("no chest pain"), follow-ups, or questions about the emergency department.
 Set language to the language of the latest message: en, hi (Devanagari script) or hinglish (Hindi in Roman letters)."""
