@@ -230,7 +230,7 @@ def test_booking_and_billing_prompts_tell_the_model_not_to_state_hospital_facts(
         system = chat.calls[1]["system"]
         system = system[0]["text"] if isinstance(system, list) else system
         assert "not yours to state" in system
-        assert "call the change tool right away" in system and "Never decide the 4-hour rule yourself" in system
+        assert "CALL the change tool" in system and "Never decide the 4-hour rule yourself" in system
 
 
 def test_billing_flow_sends_a_link_only_after_confirmation():
